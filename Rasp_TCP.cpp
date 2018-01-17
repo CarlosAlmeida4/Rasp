@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
 		server_socket = tcp_init_server(port);
 		//Cria o thread para acompanhar o client_socket
 		pthread_t client_thread;
-		pthread_create(&client_thread, NULL, tcp_client_receiver,server_socket);
+		pthread_create(&client_thread, NULL, tcp_client_receiver, &server_socket);
 		//From where theres no more tcp client stuff
 
 		while(1){

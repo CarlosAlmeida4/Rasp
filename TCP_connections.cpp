@@ -13,6 +13,15 @@
 
 using namespace std;
 
+//Recebe os pedidos do cliente e trata de os entregar
+void client_handler(void* args){
+
+		int client = *(int*) args;
+
+		cout << "Welcome new client " << endl;
+
+}
+
 int tcp_init_server(int port){
 
 		int sockfd;
@@ -80,21 +89,16 @@ int tcp_new_client(int server){
 }
 
 //Recebe os clientes e cria os threads para os acompanhar
-void tcp_client_receiver(int server){
+void tcp_client_receiver(void* args){
+
+		int server = *(int*)args;
 
 		while(1){
 
 				int client_socket = tcp_new_client(server);
 				pthread_t thread;
-				pthread_create(&thread, NULL, client_handler, client_socket);
+				pthread_create(&thread, NULL, client_handler, &client_socket);
 
 		}
-
-}
-
-//Recebe os pedidos do cliente e trata de os entregar
-void client_handler(int client){
-
-		cout << "Welcome new client " << endl;
 
 }

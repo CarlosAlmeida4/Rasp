@@ -9,12 +9,10 @@
 #include <netinet/in.h>
 #include <pthread.h>
 
-
+void client_handler(void*);
 
 int tcp_init_server(int);
 
 int tcp_new_client(int);
 
-void tcp_client_receiver(int);
-
-void client_handler(int);
+void tcp_client_receiver(void*);
