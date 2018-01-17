@@ -20,6 +20,7 @@
  *
  *	compilation command
  *	g++ Rasp_TCP.cpp -lm TCP_connections.o -lgps -o server
+ *  g++ Rasp_TCP.cpp -lm TCP_connections.o -lgps -lpthread -o server
  *	g++ -c TCP_connections.cpp -o TCP_connections.o
  */
 

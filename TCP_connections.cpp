@@ -14,7 +14,7 @@
 using namespace std;
 
 //Recebe os pedidos do cliente e trata de os entregar
-void client_handler(void* args){
+void* client_handler(void* args){
 
 		int client = *(int*) args;
 
@@ -89,7 +89,7 @@ int tcp_new_client(int server){
 }
 
 //Recebe os clientes e cria os threads para os acompanhar
-void tcp_client_receiver(void* args){
+void* tcp_client_receiver(void* args){
 
 		int server = *(int*)args;
 
