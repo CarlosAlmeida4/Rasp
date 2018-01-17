@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <pthread.h>
 
 
 
@@ -14,6 +15,6 @@ int tcp_init_server(int);
 
 int tcp_new_client(int);
 
-//void writeline(int , string );
+void tcp_client_receiver(int);
 
-//bool readline(int, string &);
+void client_handler(int);
