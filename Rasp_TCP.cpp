@@ -84,10 +84,16 @@ int main(int argc, char *argv[]){
 		else {
 				libgps_dump_state(newdata);
 		}
-		
+
+
+
 
 		while(1){
 
+			if(newdata->set & LATLON_SET){
+				cout << "Latitude: " << newdata->fix.latitude << endl;
+				cout << "Longitude: "<< newdata->fix.longitude << endl;
+			}
 
 		}
 
