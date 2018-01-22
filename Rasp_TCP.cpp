@@ -68,23 +68,25 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
+		//Estrutura que guarda os dados gps
+		struct gps_data_t* newdata;
+
+		//Check if has fix
+		if (!gps_rec.waiting(5000000))
+			continue;
+
+		//Check if it has data
+		if ((newdata = gps_rec.read()) == NULL) {
+				cerr << "Read error.\n";
+				return 1;
+		}
+
+		else {
+				libgps_dump_state(newdata);
+		}
+		
+
 		while(1){
-			//Estrutura que guarda os dados gps
-			struct gps_data_t* newdata;
-
-			//Check if has fix
-			if (!gps_rec.waiting(5000000))
-				continue;
-
-			//Check if it has data
-			if ((newdata = gps_rec.read()) == NULL) {
-					cerr << "Read error.\n";
-					return 1;
-			}
-
-			else {
-					libgps_dump_state(newdata);
-			}
 
 
 		}
