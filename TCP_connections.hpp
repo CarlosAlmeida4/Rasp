@@ -9,6 +9,9 @@
 #include <netinet/in.h>
 #include <pthread.h>
 
+//user created
+#include "GPS.hpp"
+
 void* client_handler(void*);
 
 int tcp_init_server(int);

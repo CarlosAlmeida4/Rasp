@@ -8,7 +8,8 @@
 #include <netinet/in.h>
 #include <pthread.h>
 
-
+//user created
+#include "GPS.hpp"
 
 
 using namespace std;

@@ -12,6 +12,8 @@
 #include "libgpsmm.h"
 using namespace std;
 
+
+
 /*
  * We should get libgps_dump_state() from the client library, but
  * scons has a bug; we can't get it to add -lgps to the link line,
@@ -19,3 +21,5 @@ using namespace std;
  * build of a C++ file.
  */
 void libgps_dump_state(struct gps_data_t *);
+
+void* client_GPS(void*);

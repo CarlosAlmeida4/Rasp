@@ -13,6 +13,7 @@
 
 using namespace std;
 
+
 /*
  * We should get libgps_dump_state() from the client library, but
  * scons has a bug; we can't get it to add -lgps to the link line,
@@ -96,5 +97,36 @@ void libgps_dump_state(struct gps_data_t *collect)
 			  collect->devices.list[i].path,
 			  collect->devices.list[i].driver);
 	}
+    }
+}
+
+
+void* client_GPS(void* args){
+
+		int client = *(int*) args;
+    //Init da estrutura do gps
+    gpsmm gps_rec("localhost", DEFAULT_GPSD_PORT);
+
+    if (gps_rec.stream(WATCH_ENABLE|WATCH_JSON) == NULL) {
+        cerr << "No GPSD running.\n";
+
+    }
+
+    //Estrutura que guarda os dados gps
+    struct gps_data_t* newdata;
+
+    while(1){
+    //Check if has fix
+    if (!gps_rec.waiting(5000000))
+      continue;
+
+    //Check if it has data
+    if ((newdata = gps_rec.read()) == NULL) {
+        cerr << "Read error.\n";
+        break;
+    }
+
+        libgps_dump_state(newdata);
+
     }
 }

@@ -52,6 +52,7 @@ using namespace std;
 int main(int argc, char *argv[]){
 
 	  int server_socket;
+		int GPS_Flag=0;
 
 		//Inicializa
 		server_socket = tcp_init_server(port);
@@ -60,40 +61,14 @@ int main(int argc, char *argv[]){
 		pthread_create(&client_thread, NULL, tcp_client_receiver, &server_socket);
 		//From where theres no more tcp client stuff
 
-		//Init da estrutura do gps
-		gpsmm gps_rec("localhost", DEFAULT_GPSD_PORT);
-
-		if (gps_rec.stream(WATCH_ENABLE|WATCH_JSON) == NULL) {
-        cerr << "No GPSD running.\n";
-        return 1;
-    }
-
-		//Estrutura que guarda os dados gps
-		struct gps_data_t* newdata;
-
-		//Check if has fix
-		if (!gps_rec.waiting(5000000))
-			continue;
-
-		//Check if it has data
-		if ((newdata = gps_rec.read()) == NULL) {
-				cerr << "Read error.\n";
-				return 1;
-		}
-
-		else {
-				libgps_dump_state(newdata);
-		}
-
+		//initialize GPS client that constantly checks the gps info
+		pthread_t client_gps;
+		pthread_create(&client_thread,NULL,client_GPS, &GPS_Flag);
 
 
 
 		while(1){
 
-			if(newdata->set & LATLON_SET){
-				cout << "Latitude: " << newdata->fix.latitude << endl;
-				cout << "Longitude: "<< newdata->fix.longitude << endl;
-			}
 
 		}
 
