@@ -19,7 +19,7 @@ using namespace std;
  * apparently because it doesn't honor parse_flags on a Program()
  * build of a C++ file.
  */
-static void libgps_dump_state(struct gps_data_t *collect)
+void libgps_dump_state(struct gps_data_t *collect)
 {
     /* no need to dump the entire state, this is a sanity check */
 #ifndef USE_QT
