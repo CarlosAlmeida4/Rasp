@@ -10,7 +10,7 @@
 
 //user created
 #include "libgpsmm.h"
-
+using namespace std;
 
 /*
  * We should get libgps_dump_state() from the client library, but

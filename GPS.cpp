@@ -11,6 +11,8 @@
 //user created
 #include "libgpsmm.h"
 
+using namespace std;
+
 /*
  * We should get libgps_dump_state() from the client library, but
  * scons has a bug; we can't get it to add -lgps to the link line,

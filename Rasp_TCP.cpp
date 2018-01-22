@@ -22,6 +22,7 @@
  *	g++ Rasp_TCP.cpp -lm TCP_connections.o -lgps -o server
  *  g++ Rasp_TCP.cpp -lm TCP_connections.o -lgps -lpthread -o server
  *	g++ -c TCP_connections.cpp -o TCP_connections.o
+ *	g++ -c GPS.cpp -o GPS.o
  */
 
 #include <iostream> // cout
@@ -80,7 +81,7 @@ int main(int argc, char *argv[]){
 					cerr << "Read error.\n";
 					return 1;
 			}
-			
+
 			else {
 					libgps_dump_state(newdata);
 			}
