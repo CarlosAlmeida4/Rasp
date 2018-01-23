@@ -13,6 +13,8 @@
 
 using namespace std;
 
+gpsmm gps_rec("localhost", DEFAULT_GPSD_PORT);
+struct gps_data_t* data/*=gps_rec.read()*/;
 
 /*
  * We should get libgps_dump_state() from the client library, but
@@ -100,17 +102,27 @@ void libgps_dump_state(struct gps_data_t *collect)
     }
 }
 
+double latitude(void){
+  return data->fix.latitude;
+}
+double longitude(void){
+  return data->fix.longitude;
+}
+double speed(void){
+  return data->fix.speed;
+}
 
 void* client_GPS(void* args){
 
 		int client = *(int*) args;
     //Init da estrutura do gps
-    gpsmm gps_rec("localhost", DEFAULT_GPSD_PORT);
+
 
     if (gps_rec.stream(WATCH_ENABLE|WATCH_JSON) == NULL) {
         cerr << "No GPSD running.\n";
 
     }
+
 
     //Estrutura que guarda os dados gps
     struct gps_data_t* newdata;
@@ -121,12 +133,10 @@ void* client_GPS(void* args){
       continue;
 
     //Check if it has data
-    if ((newdata = gps_rec.read()) == NULL) {
+    if ((data = gps_rec.read()) == NULL) {
         cerr << "Read error.\n";
         break;
     }
-
-        libgps_dump_state(newdata);
 
     }
 }

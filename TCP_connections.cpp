@@ -7,22 +7,80 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <pthread.h>
+#include "libgpsmm.h"
+
 
 //user created
 #include "GPS.hpp"
 
-
 using namespace std;
 
-//Recebe os pedidos do cliente e trata de os entregar
-void* client_handler(void* args){
 
-		int client = *(int*) args;
-
-		cout << "Welcome new client " << endl;
-
+void writeline(int socketfd, string line) {
+	string tosend = line + "\n";
+	write(socketfd, tosend.c_str(), tosend.length());
 }
 
+/* Lê uma linha de um socket // funciona corretamente
+   retorna false se o socket se tiver fechado */
+bool readline(int socketfd, string &line) {
+  int n;
+  /* buffer de tamanho 1025 para ter espaço
+     para o \0 que indica o fim de string*/
+  char buffer[1025];
+
+  /* inicializar a string */
+  line = "";
+
+  /* Enquanto não encontrarmos o fim de linha
+     vamos lendo mais dados da stream */
+  while (line.find('\n') == string::npos) {
+    // leu n carateres. se for zero chegamos ao fim
+    int n = read(socketfd, buffer, 1024); // ler do socket
+    if (n == 0) return false; // nada para ser lido -> socket fechado
+    buffer[n] = 0; // colocar o \0 no fim do buffer
+    line += buffer; // acrescentar os dados lidos à string
+  }
+
+  // Retirar o \r\n (lemos uma linha mas não precisamos do \r\n)
+  line.erase(line.end() - 1);
+  line.erase(line.end() - 1);
+  return true;
+}
+
+string doubleToString(double i) {
+        ostringstream oss;
+        oss << i;
+        return oss.str();
+}
+
+//Client attending routine
+void* client_handler(void* args){
+
+		int client_socket = *(int*) args;
+		string line;
+
+		cout << "we have lift off" << endl;
+
+		writeline(client_socket, "Welcome to the show");
+
+		while(readline(client_socket,line)){
+
+			cout << " The socket: " << client_socket << " said: " << line << endl;
+
+			if(line.find("GPS")==0){
+
+					writeline(client_socket, "Here´s the GPS info, lat equals: " + doubleToString(latitude()) + "  ");
+					writeline(client_socket, "long equals: " +doubleToString(longitude()) + "  ");
+					writeline(client_socket, "long equals: " +doubleToString(speed()) + "  ");
+
+					cout << "give the GPS info to the client " << endl;
+			}
+		}
+
+
+}
+//initialize the server with the port chosen in main()
 int tcp_init_server(int port){
 
 		int sockfd;
@@ -71,7 +129,6 @@ int tcp_init_server(int port){
 
 		return sockfd;
 }
-
 //input sockfd do servidor, output socketfd do cliente
 int tcp_new_client(int server){
 
@@ -88,7 +145,6 @@ int tcp_new_client(int server){
 
 		return sockfd;
 }
-
 //Recebe os clientes e cria os threads para os acompanhar
 void* tcp_client_receiver(void* args){
 

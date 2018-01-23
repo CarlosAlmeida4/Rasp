@@ -10,7 +10,13 @@
 #include <pthread.h>
 
 //user created
-#include "GPS.hpp"
+using namespace std;
+
+void writeline(int,string);
+
+bool readline(int,string);
+
+string doubleToString(double i);
 
 void* client_handler(void*);
 
