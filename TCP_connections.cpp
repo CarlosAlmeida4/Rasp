@@ -70,9 +70,9 @@ void* client_handler(void* args){
 
 			if(line.find("GPS")==0){
 
-					writeline(client_socket, "Here´s the GPS info, lat equals: " + doubleToString(latitude()) + "  ");
-					writeline(client_socket, "long equals: " +doubleToString(longitude()) + "  ");
-					writeline(client_socket, "long equals: " +doubleToString(speed()) + "  ");
+					writeline(client_socket,  doubleToString(latitude()));
+					writeline(client_socket, doubleToString(longitude()) );
+					writeline(client_socket, doubleToString(speed()));
 
 					cout << "give the GPS info to the client " << endl;
 			}
