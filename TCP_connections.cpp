@@ -62,7 +62,7 @@ void* client_handler(void* args){
 
 		cout << "we have lift off" << endl;
 
-		writeline(client_socket, "Welcome to the show");
+		//writeline(client_socket, "Welcome to the show");
 
 		while(readline(client_socket,line)){
 
@@ -70,9 +70,7 @@ void* client_handler(void* args){
 
 			if(line.find("GPS")==0){
 
-					writeline(client_socket,  doubleToString(latitude()));
-					writeline(client_socket, doubleToString(longitude()) );
-					writeline(client_socket, doubleToString(speed()));
+					writeline(client_socket,  doubleToString(latitude()) +"/0"+ doubleToString(longitude()) +"/0"+  doubleToString(speed()));
 
 					cout << "give the GPS info to the client " << endl;
 			}

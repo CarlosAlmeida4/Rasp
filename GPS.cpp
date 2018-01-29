@@ -97,7 +97,7 @@ void libgps_dump_state(struct gps_data_t *collect)
 	    (void)fprintf(stdout, "%d: path='%s' driver='%s'\n",
 			  collect->devices.ndevices,
 			  collect->devices.list[i].path,
-			  collect->devices.list[i].driver);
+			  collect->devices   .list[i].driver);
 	}
     }
 }
