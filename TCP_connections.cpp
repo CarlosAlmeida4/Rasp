@@ -15,14 +15,14 @@
 
 using namespace std;
 
-
+//Write information to the client socket
 void writeline(int socketfd, string line) {
 	string tosend = line + "\n";
 	write(socketfd, tosend.c_str(), tosend.length());
 }
 
-/* Lê uma linha de um socket // funciona corretamente
-   retorna false se o socket se tiver fechado */
+//Reads lines
+//Returns false when client disconnects
 bool readline(int socketfd, string &line) {
   int n;
   /* buffer de tamanho 1025 para ter espaço
@@ -62,21 +62,24 @@ void* client_handler(void* args){
 
 		cout << "we have lift off" << endl;
 
-		//writeline(client_socket, "Welcome to the show");
-
 		while(readline(client_socket,line)){
 
 			cout << " The socket: " << client_socket << " said: " << line << endl;
 
+			//Command to return GPS info
 			if(line.find("GPS")==0){
-
-					writeline(client_socket,  doubleToString(latitude()) +"/0"+ doubleToString(longitude()) +"/0"+  doubleToString(speed()));
-
+					writeline(client_socket,  doubleToString(latitude()) +"/"+ doubleToString(longitude()) +"/"+  doubleToString(speed()));
 					cout << "give the GPS info to the client " << endl;
 			}
+			//Only used for telnet debug, breaks the while cycle
+			if(line.find("CLS")==0){
+				break;
+			}
+
 		}
 
-
+		cout << "Client Disconnected, Client thread will now shutdown " << endl;
+		close(client_socket);
 }
 //initialize the server with the port chosen in main()
 int tcp_init_server(int port){
