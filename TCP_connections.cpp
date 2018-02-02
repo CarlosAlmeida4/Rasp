@@ -11,7 +11,7 @@
 
 
 //user created
-#include "GPS.hpp"
+#include "sensors.hpp"
 
 using namespace std;
 
@@ -70,6 +70,10 @@ void* client_handler(void* args){
 			if(line.find("GPS")==0){
 					writeline(client_socket,  doubleToString(latitude()) +"/"+ doubleToString(longitude()) +"/"+  doubleToString(speed()));
 					cout << "give the GPS info to the client " << endl;
+			}
+			if(line.find("SPD")==0){
+				writeline(client_socket,doubleToString(speed()));
+				cout<< "give speed info to client" << endl;
 			}
 			//Only used for telnet debug, breaks the while cycle
 			if(line.find("CLS")==0){

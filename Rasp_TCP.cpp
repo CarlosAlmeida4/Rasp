@@ -41,7 +41,7 @@
 
 //user created
 #include "TCP_connections.hpp"
-#include "GPS.hpp"
+#include "sensors.hpp"
 
 int port =8001;
 
@@ -52,11 +52,11 @@ using namespace std;
 int main(int argc, char *argv[]){
 
 	  int server_socket;
-		int GPS_Flag=0;
+		int sensors_Flag=0;
 
 		//initialize GPS client so that the gps is active
-		pthread_t client_gps;
-		pthread_create(&client_gps,NULL,client_GPS, &GPS_Flag);
+		pthread_t sensor_thread;
+		pthread_create(&sensor_thread,NULL,client_sensors, &sensors_Flag);
 
 		//Inicializa, must be initialized after gps is initialized
 		server_socket = tcp_init_server(port);
