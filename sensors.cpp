@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <pthread.h>
+#include <postgresql/libpq-fe.h>//Postgres library
 
 //user created
 #include "libgpsmm.h"
@@ -16,8 +17,12 @@
 
 using namespace std;
 
+PGconn* conn =NULL;//declaração do PGcon
+
 gpsmm gps_rec("localhost", DEFAULT_GPSD_PORT);
 struct gps_data_t* data/*=gps_rec.read()*/;
+
+bool gps_tracker = false;
 
 /*
  * We should get libgps_dump_state() from the client library, but
@@ -105,17 +110,53 @@ void libgps_dump_state(struct gps_data_t *collect)
     }
 }
 
+// return latitude info
 double latitude(void){
   return data->fix.latitude;
 }
+//return longitude info
 double longitude(void){
   return data->fix.longitude;
 }
+// return speed info
 double speed(void){
   return data->fix.speed;
 }
 
-int get__series_value(string line){
+// initiate connection to database
+void init_DB(void){
+	//init db
+	conn=PQconnectdb("host = 'localhost' dbname='Pi_Data'  user='pi' password='raspberry'");
+
+	//confima se ligou
+	if(!conn){
+		cout << "Failed to connect to database"<< endl;
+		exit(-1);
+	}
+
+	if(PQstatus(conn) != CONNECTION_OK){
+		cout << "Failed to connect to Database (pgstatus)" <<endl;
+    fprintf(stderr, "Connection to database failed: %s\n", PQerrorMessage(conn));
+		exit(-1);
+	}
+
+}
+
+//Changes the bool variable in order to start or stop the gps tracking action
+void gps_tracker_on_off(void){
+
+  if(gps_tracker==true){
+      gps_tracker = false;
+  }
+  else{
+      gps_tracker = true;
+  }
+
+
+}
+
+//Obtain values from the series connection to the arduino
+int get_series_value(string line){
 
   //Variables needed for the serial connection
   int cport_nr = 24; // /dev/ttyACMA0
@@ -158,6 +199,7 @@ int get__series_value(string line){
    return 0;
 }
 
+//Sensors thread routine, also updates the gps values
 void* client_sensors(void* args){
 
 		int client = *(int*) args;
@@ -184,6 +226,10 @@ void* client_sensors(void* args){
       if ((data = gps_rec.read()) == NULL) {
         cerr << "Read error.\n";
         break;
+      }
+      //check if gps_tracker is on or off
+      if (gps_tracker) {
+        init_DB();
       }
 
 

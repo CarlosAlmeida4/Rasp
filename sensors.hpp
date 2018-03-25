@@ -26,4 +26,7 @@ void libgps_dump_state(struct gps_data_t *);
 double latitude(void);
 double longitude(void);
 double speed(void);
+void init_DB(void);
+void gps_tracker_on_off(void);
+int get_series_value(string);
 void* client_sensors(void*);

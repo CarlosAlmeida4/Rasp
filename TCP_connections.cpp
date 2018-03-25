@@ -75,6 +75,11 @@ void* client_handler(void* args){
 				writeline(client_socket,doubleToString(speed()));
 				cout<< "give speed info to client" << endl;
 			}
+			//Command to start or stop the gps_tracker
+			if(line.find("GPT")==0){
+				gps_tracker_on_off();
+					cout<< "GPS tracker started" << endl;
+			}
 			//Only used for telnet debug, breaks the while cycle
 			if(line.find("CLS")==0){
 				break;
