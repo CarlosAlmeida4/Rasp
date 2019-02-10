@@ -1,13 +1,16 @@
 #include <iostream> // cout
+#include <fstream>
 #include <sstream> // cout
 #include <stdlib.h>  // exit
 #include <string.h> // bzero
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <netinet/in.h>
 #include <pthread.h>
 #include <postgresql/libpq-fe.h>//Postgres library
+#include <signal.h>
 
 //user created
 #include "libgpsmm.h"
@@ -20,7 +23,7 @@ using namespace std;
 PGconn* conn =NULL;//declaração do PGcon
 
 gpsmm gps_rec("localhost", DEFAULT_GPSD_PORT);
-struct gps_data_t* data/*=gps_rec.read()*/;
+volatile struct gps_data_t* data/*=gps_rec.read()*/;
 
 bool gps_tracker = false;
 
@@ -199,6 +202,21 @@ int get_series_value(string line){
    return 0;
 }
 
+
+void periodic_save_position(int signum)
+{	
+
+	static int count = 0;
+	printf(" periodic task in C++ timer %d \n", count);
+
+	if (count == 3) {
+		
+		count = 0;
+	}
+
+	count++;
+}
+
 //Sensors thread routine, also updates the gps values
 void* client_sensors(void* args){
 
@@ -211,10 +229,30 @@ void* client_sensors(void* args){
 
     }
 
-    //Estrutura que guarda os dados gps
+    //not used I beelieve 
     struct gps_data_t* newdata;
 
+	// Thank god for stack overflow
+	// How to do timed tasks in C++ in linux
+	// https://stackoverflow.com/questions/28874139/how-write-program-for-periodic-task-in-c
+	struct sigaction sa;
+	struct itimerval timer;
 
+	/* Install periodic_task  as the signal handler for SIGVTALRM. */
+	memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = &periodic_save_position;
+	sigaction(SIGVTALRM, &sa, NULL);
+
+	/* Configure the timer to expire after 250 msec... */
+	timer.it_value.tv_sec = 0;
+	timer.it_value.tv_usec = 250000;
+
+	/* ... and every 250 msec after that. */
+	timer.it_interval.tv_sec = 0;
+	timer.it_interval.tv_usec = 250000;
+
+	/* Start a virtual timer. It counts down whenever this process is    executing. */
+	setitimer(ITIMER_VIRTUAL, &timer, NULL);
 
 
     while(1){

@@ -23,6 +23,9 @@
  *  g++ Rasp_TCP.cpp -lm TCP_connections.o -lgps -lpthread -o server
  *	g++ -c TCP_connections.cpp -o TCP_connections.o
  *	g++ -c GPS.cpp -o GPS.o
+ *
+ *	g++ Rasp_TCP.cpp TCP_connections.cpp sensors.cpp rs232.c -lgps -lpthread -o server
+ *	
  */
 
 #include <iostream> // cout

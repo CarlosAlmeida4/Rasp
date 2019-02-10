@@ -5,8 +5,12 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <netinet/in.h>
 #include <pthread.h>
+#include <postgresql/libpq-fe.h>//Postgres library
+#include <signal.h>
+
 
 //user created
 #include "libgpsmm.h"
@@ -29,4 +33,5 @@ double speed(void);
 void init_DB(void);
 void gps_tracker_on_off(void);
 int get_series_value(string);
+void periodic_save_position(int);
 void* client_sensors(void*);
