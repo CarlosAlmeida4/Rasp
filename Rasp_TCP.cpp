@@ -25,7 +25,7 @@
  *	g++ -c GPS.cpp -o GPS.o
  *
  *	g++ Rasp_TCP.cpp TCP_connections.cpp sensors.cpp rs232.c -lgps -lpthread -o server
- *	
+ *
  */
 
 #include <iostream> // cout
@@ -39,7 +39,7 @@
 #include <pthread.h>
 
 //GPS
-#include "libgpsmm.h"
+//#include "libgpsmm.h"
 
 
 //user created

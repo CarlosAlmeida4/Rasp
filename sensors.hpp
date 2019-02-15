@@ -8,12 +8,12 @@
 #include <sys/time.h>
 #include <netinet/in.h>
 #include <pthread.h>
-#include <postgresql/libpq-fe.h>//Postgres library
+//#include <postgresql/libpq-fe.h>//Postgres library
 #include <signal.h>
 
 
 //user created
-#include "libgpsmm.h"
+//#include "libgpsmm.h"
 
 
 using namespace std;
@@ -25,13 +25,13 @@ using namespace std;
  * apparently because it doesn't honor parse_flags on a Program()
  * build of a C++ file.
  */
-void libgps_dump_state(struct gps_data_t *);
-
+// void libgps_dump_state(struct gps_data_t *);
+//
 double latitude(void);
 double longitude(void);
 double speed(void);
-void init_DB(void);
+// void init_DB(void);
 void gps_tracker_on_off(void);
-int get_series_value(string);
+// int get_series_value(string);
 void periodic_save_position(int);
 void* client_sensors(void*);
