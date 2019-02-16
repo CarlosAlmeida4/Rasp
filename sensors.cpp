@@ -210,7 +210,7 @@ void periodic_save_position(int signum)
 {
 
 	static int count = 0;
-	printf(" periodic task in C++ timer %d \n", count);
+	//printf(" periodic task in C++ timer %d \n", count);
 
 	if (count == 3) {
 

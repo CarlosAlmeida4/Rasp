@@ -31,7 +31,8 @@
 #include <iostream> // cout
 #include <sstream> // cout
 #include <stdlib.h>  // exit
-#include <string.h> // bzero
+#include <string> // bzero
+#include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -67,11 +68,25 @@ int main(int argc, char *argv[]){
 		pthread_t client_thread;
 		pthread_create(&client_thread, NULL, tcp_client_receiver, &server_socket);
 
+		FILE* fd;
+		fd = fopen("Example_file.csv","r+");
 
-		while(1){
 
-
+		if(fd == NULL){
+			cout << "Error opening csv file" << endl;
 		}
+
+		char line[1024];
+
+		while(fscanf(fd,"%s",line) != EOF){
+			printf("%s\n",line);
+		}
+		fclose(fd);
+
+		// while(1){
+		//
+		//
+		// }
 
 	  return 0;
 }
