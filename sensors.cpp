@@ -129,25 +129,7 @@ double speed(void){
   //return data->fix.speed;
 }
 
-// // initiate connection to database
-// void init_DB(void){
-// 	//init db
-// 	conn=PQconnectdb("host = 'localhost' dbname='Pi_Data'  user='pi' password='raspberry'");
-//
-// 	//confima se ligou
-// 	if(!conn){
-// 		cout << "Failed to connect to database"<< endl;
-// 		exit(-1);
-// 	}
-//
-// 	if(PQstatus(conn) != CONNECTION_OK){
-// 		cout << "Failed to connect to Database (pgstatus)" <<endl;
-//     fprintf(stderr, "Connection to database failed: %s\n", PQerrorMessage(conn));
-// 		exit(-1);
-// 	}
-//
-// }
-//
+
 //Changes the bool variable in order to start or stop the gps tracking action
 void gps_tracker_on_off(void){
 

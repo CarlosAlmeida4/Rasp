@@ -46,11 +46,11 @@
 //user created
 #include "TCP_connections.hpp"
 #include "sensors.hpp"
+#include "csv.hpp"
 
 int port =8001;
 
 using namespace std;
-
 
 //main
 int main(int argc, char *argv[]){
@@ -68,25 +68,17 @@ int main(int argc, char *argv[]){
 		pthread_t client_thread;
 		pthread_create(&client_thread, NULL, tcp_client_receiver, &server_socket);
 
-		FILE* fd;
-		fd = fopen("Example_file.csv","r+");
+		csv_file csv_input;
 
-
-		if(fd == NULL){
-			cout << "Error opening csv file" << endl;
-		}
+		csv_input.csv_file = csv_input.csv_open_file("Example_file.csv");
 
 		char line[1024];
+		string str;
+		int i = 0;
 
-		while(fscanf(fd,"%s",line) != EOF){
-			printf("%s\n",line);
-		}
-		fclose(fd);
-
-		// while(1){
-		//
-		//
-		// }
+		csv_input.csv_read();
+		printf("I read %d lines of the csv file\n", csv_input.n_lines);
+		fclose(csv_input.csv_file);
 
 	  return 0;
 }
