@@ -130,18 +130,7 @@ double speed(void){
 }
 
 
-//Changes the bool variable in order to start or stop the gps tracking action
-void gps_tracker_on_off(void){
 
-  if(gps_tracker==true){
-      gps_tracker = false;
-  }
-  else{
-      gps_tracker = true;
-  }
-
-
-}
 //
 // //Obtain values from the series connection to the arduino
 // int get_series_value(string line){

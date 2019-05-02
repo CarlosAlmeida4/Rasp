@@ -1,30 +1,16 @@
 /*
  * Rasp_TCP.cpp
  *
- * Copyright 2018 root <root@kali>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
  *
  *	compilation command
- *	g++ Rasp_TCP.cpp -lm TCP_connections.o -lgps -o server
- *  g++ Rasp_TCP.cpp -lm TCP_connections.o -lgps -lpthread -o server
+ *	g++ Rasp_main.cpp -lm TCP_connections.o -lgps -o server
+ *  g++ Rasp_main.cpp -lm TCP_connections.o -lgps -lpthread -o server
  *	g++ -c TCP_connections.cpp -o TCP_connections.o
  *	g++ -c GPS.cpp -o GPS.o
- *
- *	g++ Rasp_TCP.cpp TCP_connections.cpp sensors.cpp rs232.c -lgps -lpthread -o server
+ *	//Full deployement on the Rasp
+ *	g++ Rasp_main.cpp TCP_connections.cpp sensors.cpp rs232.c csv.cpp -lgps -lpthread -o server
+ *  //Remote Testing
+ *  g++ Rasp_main.cpp TCP_connections.cpp sensors.cpp csv.cpp -lpthread -o server
  *
  */
 
@@ -70,15 +56,17 @@ int main(int argc, char *argv[]){
 
 		csv_file csv_input;
 
-		csv_input.csv_file = csv_input.csv_open_file("Example_file.csv");
+		csv_input.csv_file = csv_input.csv_open_file("Example_file1.csv");
 
 		char line[1024];
 		string str;
 		int i = 0;
 
-		csv_input.csv_read();
-		printf("I read %d lines of the csv file\n", csv_input.n_lines);
+
 		fclose(csv_input.csv_file);
+
+		// // uncomment to continue running
+		//while(1);
 
 	  return 0;
 }
