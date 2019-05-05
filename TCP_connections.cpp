@@ -128,7 +128,7 @@ int tcp_init_server(int port){
 	  int res = bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 
 	  if (res < 0) {
-	    cout << "Error binding to socket" << endl;
+	    cout << "Error binding to socket: " << res << endl;
 	    exit(-1);
 	  }
 

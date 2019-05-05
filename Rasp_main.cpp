@@ -50,10 +50,11 @@ int main(int argc, char *argv[]){
 		pthread_create(&sensor_thread,NULL,client_sensors, &sensors_Flag);
 
 		//Inicializa, must be initialized after gps is initialized
-		// server_socket = tcp_init_server(port);
-		// //Cria o thread para acompanhar o client_socket
-		// pthread_t client_thread;
-		// pthread_create(&client_thread, NULL, tcp_client_receiver, &server_socket);
+		server_socket = tcp_init_server(port);
+		//Cria o thread para acompanhar o client_socket
+		pthread_t client_thread;
+		pthread_create(&client_thread, NULL, tcp_client_receiver, &server_socket);
+
 
 		csv_file csv_input;
 
@@ -69,6 +70,8 @@ int main(int argc, char *argv[]){
 
 		// // uncomment to continue running
 		while(1);
+
+		cout << "hi" << endl;
 
 	  return 0;
 }
