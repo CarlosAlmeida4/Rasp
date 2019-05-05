@@ -11,7 +11,8 @@
  *	g++ Rasp_main.cpp TCP_connections.cpp sensors.cpp rs232.c csv.cpp -lgps -lpthread -o server
  *  //Remote Testing
  *  g++ Rasp_main.cpp TCP_connections.cpp sensors.cpp csv.cpp -lpthread -o server
- *
+ *	cd /
+ * 	cd mnt/c/Users/Carlos\ Almeida/Documents/Workspace
  */
 
 #include <iostream> // cout
@@ -49,10 +50,10 @@ int main(int argc, char *argv[]){
 		pthread_create(&sensor_thread,NULL,client_sensors, &sensors_Flag);
 
 		//Inicializa, must be initialized after gps is initialized
-		server_socket = tcp_init_server(port);
-		//Cria o thread para acompanhar o client_socket
-		pthread_t client_thread;
-		pthread_create(&client_thread, NULL, tcp_client_receiver, &server_socket);
+		// server_socket = tcp_init_server(port);
+		// //Cria o thread para acompanhar o client_socket
+		// pthread_t client_thread;
+		// pthread_create(&client_thread, NULL, tcp_client_receiver, &server_socket);
 
 		csv_file csv_input;
 
@@ -65,8 +66,9 @@ int main(int argc, char *argv[]){
 
 		fclose(csv_input.csv_file);
 
+
 		// // uncomment to continue running
-		//while(1);
+		while(1);
 
 	  return 0;
 }

@@ -11,6 +11,6 @@ class csv_file{
   FILE* csv_open_file(string file_name);
   //Read method works, returns the number of lines read
   unsigned int csv_read(void);
-  char csv_write(string line);
+  char csv_write(int ID);
 
 };

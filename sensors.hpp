@@ -33,5 +33,5 @@ double speed(void);
 // void init_DB(void);
 void gps_tracker_on_off(void);
 // int get_series_value(string);
-void periodic_save_position(int);
+void periodic_task(int);
 void* client_sensors(void*);

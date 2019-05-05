@@ -176,13 +176,13 @@ double speed(void){
 //    return 0;
 // }
 
-
+int count = 0;
 void periodic_save_position(int signum)
 {
 
-	static int count = 0;
-	//printf(" periodic task in C++ timer %d \n", count);
 
+	//printf(" periodic task in C++ timer %d \n", count);
+  //cout << "Hi" << endl;
 	if (count == 3) {
 
 		count = 0;
@@ -197,7 +197,6 @@ void* client_sensors(void* args){
 		int client = *(int*) args;
 
 
-
     // if (gps_rec.stream(WATCH_ENABLE|WATCH_JSON) == NULL) {
     //     cerr << "No GPSD running.\n";
     //
@@ -206,28 +205,7 @@ void* client_sensors(void* args){
     //not used I beelieve
     //struct gps_data_t* newdata;
 
-	// Thank god for stack overflow
-	// How to do timed tasks in C++ in linux
-	// https://stackoverflow.com/questions/28874139/how-write-program-for-periodic-task-in-c
-	struct sigaction sa;
-	struct itimerval timer;
-
-	/* Install periodic_task  as the signal handler for SIGVTALRM. */
-	memset(&sa, 0, sizeof(sa));
-	sa.sa_handler = &periodic_save_position;
-	sigaction(SIGVTALRM, &sa, NULL);
-
-	/* Configure the timer to expire after 250 msec... */
-	timer.it_value.tv_sec = 0;
-	timer.it_value.tv_usec = 250000;
-
-	/* ... and every 250 msec after that. */
-	timer.it_interval.tv_sec = 0;
-	timer.it_interval.tv_usec = 250000;
-
-	/* Start a virtual timer. It counts down whenever this process is    executing. */
-	setitimer(ITIMER_VIRTUAL, &timer, NULL);
-
+    //TODO: round robin function vector
 
     while(1){
       //Check if has fix
@@ -239,11 +217,5 @@ void* client_sensors(void* args){
       //   cerr << "Read error.\n";
       //   break;
       // }
-      //check if gps_tracker is on or off
-      // if (gps_tracker) {
-      //   init_DB();
-      // }
-
-
     }
 }

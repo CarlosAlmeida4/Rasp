@@ -77,7 +77,7 @@ void* client_handler(void* args){
 			}
 			//Command to start or stop the gps_tracker
 			if(line.find("GPT")==0){
-				gps_tracker_on_off();
+				//gps_tracker_on_off();
 					cout<< "GPS tracker started" << endl;
 			}
 			//Only used for telnet debug, breaks the while cycle
