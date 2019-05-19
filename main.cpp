@@ -13,6 +13,11 @@
 *  g++ Rasp_main.cpp TCP_connections.cpp sensors.cpp csv.cpp -lpthread -o server
 *  To test without TCP TCP_connections
 *  g++ Rasp_main.cpp sensors.cpp csv.cpp -lpthread -o server
+*  //new remote testing
+*	 g++ main.cpp GPS_sensor.cpp csv.cpp m_Timer.c includes.h -lpthread -o gps_application
+*	 //Hardware implementation
+*	 g++ main.cpp GPS_sensor.cpp csv.cpp m_Timer.c includes.h -lgps -lpthread -o gps_application
+*
 *	cd /
 * 	cd mnt/c/Users/Carlos\ Almeida/Documents/Workspace
 */
@@ -20,7 +25,7 @@
 #include "includes.h"
 
 //GPS
-//#include "libgpsmm.h"
+#include "libgpsmm.h"
 #include "GPS_sensor.hpp"
 #include "csv.hpp"
 
@@ -68,6 +73,7 @@ int main(int argc, char *argv[]){
 		cout<< "No input files, process will now shutdown" << endl;
 		exit(10);
 	}
+
 	//Initialize the timer library
 	initialize_timer();
 
@@ -75,6 +81,10 @@ int main(int argc, char *argv[]){
 	csv_file.csv_fd = csv_open_file(csv_file.file_name);
 	csv_file.n_lines = csv_read(csv_file.csv_fd);
 	cout << "read " << csv_file.n_lines << " lines "<< endl;
+
+  //initialize GPS client so that the gps is active
+  pthread_t sensor_thread;
+	pthread_create(&sensor_thread,NULL,client_sensors, &sensors_Flag);
 
 	//save gps information into the csv file every half a second
 	size_t timer_id = start_timer(500,periodic_save_gps,TIMER_PERIODIC,&csv_file);
