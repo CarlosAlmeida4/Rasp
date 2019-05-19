@@ -33,7 +33,7 @@ static void * _timer_thread(void * data);
 static pthread_t g_thread_id;
 static struct timer_node *g_head = NULL;
 
-int initialize()
+int initialize_timer()
 {
     if(pthread_create(&g_thread_id, NULL, _timer_thread, NULL))
     {

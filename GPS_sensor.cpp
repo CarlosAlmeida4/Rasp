@@ -1,20 +1,11 @@
-#include <iostream> // cout
-#include <fstream>
-#include <sstream> // cout
-#include <stdlib.h>  // exit
-#include <string.h> // bzero
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <pthread.h>
-//#include <postgresql/libpq-fe.h>//Postgres library
-#include <signal.h>
+#include "includes.h"
 
 //user created
 // #include "libgpsmm.h"
 // #include "rs232.h" // https://www.teuniz.net/RS-232/
+
+
+
 
 #define BUF_SIZE 128
 
@@ -26,6 +17,7 @@ using namespace std;
 // volatile struct gps_data_t* data/*=gps_rec.read()*/;
 //
 bool gps_tracker = false;
+
 //
 // /*
 //  * We should get libgps_dump_state() from the client library, but
@@ -127,95 +119,4 @@ double longitude(void){
 double speed(void){
   return 0;
   //return data->fix.speed;
-}
-
-
-
-//
-// //Obtain values from the series connection to the arduino
-// int get_series_value(string line){
-//
-//   //Variables needed for the serial connection
-//   int cport_nr = 24; // /dev/ttyACMA0
-//   int bdrate = 9600; // Baudrate
-//   char mode[] = {'8','N','1',0}; //8 data bits, no parity, 1 stop bit
-//   char str_send[2][BUF_SIZE]; // send data buffer
-//   unsigned char str_recv[BUF_SIZE]; //recv data buffer
-//   strcpy(str_send[0], "165");
-//   strcpy(str_send[1], "1000");
-//
-//   int i = 0;
-//
-//   pthread_mutex_t mutex;
-//   pthread_mutex_init(&mutex,NULL);
-//
-//   if(RS232_OpenComport(cport_nr, bdrate, mode))
-//   {
-//     printf("Can not open comport\n");
-//   }
-//
-//   usleep(2000000);  /* waits 2000ms for stable condition */
-//
-//   pthread_mutex_lock(&mutex);
-//   RS232_cputs(cport_nr, str_send[i]); // sends string on serial
-//   printf("Sent to Arduino: '%s'\n", str_send[i]);
-//   pthread_mutex_unlock(&mutex);
-//   usleep(1000);  /* waits for reply 1000ms */
-//   pthread_mutex_lock(&mutex);
-//   int n = RS232_PollComport(cport_nr, str_recv, (int)BUF_SIZE);
-//   pthread_mutex_unlock(&mutex);
-//
-//   if(n > 0){
-//     str_recv[n] = 0;   /* always put a "null" at the end of a string! */
-//     printf("Received %i bytes: '%s'\n", n, (char *)str_recv);
-//   }
-//    i++;
-//    i %= 2;
-//    usleep(500000);  /* sleep for 5 Second */
-//
-//    return 0;
-// }
-
-int count = 0;
-void periodic_save_position(int signum)
-{
-
-
-	//printf(" periodic task in C++ timer %d \n", count);
-  //cout << "Hi" << endl;
-	if (count == 3) {
-
-		count = 0;
-	}
-
-	count++;
-}
-
-//Sensors thread routine, also updates the gps values
-void* client_sensors(void* args){
-
-		int client = *(int*) args;
-
-
-    // if (gps_rec.stream(WATCH_ENABLE|WATCH_JSON) == NULL) {
-    //     cerr << "No GPSD running.\n";
-    //
-    // }
-
-    //not used I beelieve
-    //struct gps_data_t* newdata;
-
-    //TODO: round robin function vector
-
-    while(1){
-      //Check if has fix
-      // if (!gps_rec.waiting(5000000))
-      //   continue;
-      //
-      //   //Check if it has data
-      // if ((data = gps_rec.read()) == NULL) {
-      //   cerr << "Read error.\n";
-      //   break;
-      // }
-    }
 }

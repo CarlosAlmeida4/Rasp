@@ -30,7 +30,7 @@ typedef void (*time_handler)(size_t timer_id,void *user_data);
 * should be called only once
 *
 */
-int initialize();
+int initialize_timer();
 
 /*
 Creates a Timer, returns the timer id to be used in stop_timer()
