@@ -16,8 +16,9 @@ using namespace std;
  * apparently because it doesn't honor parse_flags on a Program()
  * build of a C++ file.
  */
-// void libgps_dump_state(struct gps_data_t *);
-//
+void libgps_dump_state(struct gps_data_t *);
+
 double latitude(void);
 double longitude(void);
 double speed(void);
+void* client_sensors(void*);

@@ -84,12 +84,13 @@ int main(int argc, char *argv[]){
 
   //initialize GPS client so that the gps is active
   pthread_t sensor_thread;
+  int sensors_Flag = 1;
 	pthread_create(&sensor_thread,NULL,client_sensors, &sensors_Flag);
 
 	//save gps information into the csv file every half a second
 	size_t timer_id = start_timer(500,periodic_save_gps,TIMER_PERIODIC,&csv_file);
 
-	sleep(1000);
+	sleep(10);
 
 	//when finishing one must kill all threads, a clean code is a good code
 	stop_timer(timer_id);

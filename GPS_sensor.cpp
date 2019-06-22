@@ -14,7 +14,7 @@ using namespace std;
 //PGconn* conn =NULL;//declaração do PGcon
 // uncomment from this point for rasp with sensor
 gpsmm gps_rec("localhost", DEFAULT_GPSD_PORT);
-
+struct gps_data_t* data;
 
 bool gps_tracker = false;
 
@@ -129,9 +129,7 @@ void* client_sensors(void* args){
 
     }
 
-    //not used I beelieve
-    struct gps_data_t* newdata;
-    
+
     while(1){
       //Check if has fix
       if (!gps_rec.waiting(5000000))
@@ -143,9 +141,9 @@ void* client_sensors(void* args){
         break;
       }
       //check if gps_tracker is on or off
-      if (gps_tracker) {
-        init_DB();
-      }
+      // if (gps_tracker) {
+      //   init_DB();
+      // }
 
 
     }
