@@ -90,14 +90,18 @@ int main(int argc, char *argv[]){
 	//save gps information into the csv file every half a second
 	size_t timer_id = start_timer(500,periodic_save_gps,TIMER_PERIODIC,&csv_file);
 
-	sleep(10);
+	//sleep(10);
+  char stop_char;
+  while(stop_char != 's'){
+    scanf("%c", &stop_char);
+  }
 
 	//when finishing one must kill all threads, a clean code is a good code
 	stop_timer(timer_id);
 	finalize();
 	fclose(csv_file.csv_fd);
   // uncomment to continue running
-	//while(1);
+
 
 	return 0;
 }
